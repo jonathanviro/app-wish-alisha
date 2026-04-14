@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Frown, Gift } from "lucide-react";
+import { Frown } from "lucide-react";
 import type { Gift as GiftType, Contributor } from "@/types/gift";
 import { categoryConfig, getInitials } from "@/types/gift";
 import { GiftCard } from "@/components/GiftCard";

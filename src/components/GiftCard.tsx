@@ -124,10 +124,14 @@ export function GiftCard({ gift, isComplete, onReserve, index }: GiftCardProps) 
           </div>
 
           <Button 
-            className="w-full btn-transition font-medium shadow-sm text-sm md:text-base"
+            className="w-full btn-transition font-medium shadow-sm text-sm md:text-base animate-heartbeat"
             onClick={onReserve}
           >
-            {isComplete ? 'Completado' : gift.type === 'group' ? 'Aportar' : 'Reservar'}
+            <span className="flex items-center justify-center gap-1">
+              <span>👉</span>
+              {isComplete ? 'Completado' : gift.type === 'group' ? 'Aporta aquí' : 'Reserva aquí'}
+              <span>👈</span>
+            </span>
           </Button>
         </div>
       </CardContent>

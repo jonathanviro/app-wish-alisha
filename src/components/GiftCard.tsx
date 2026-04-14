@@ -19,10 +19,10 @@ export function GiftCard({ gift, isComplete, onReserve, index }: GiftCardProps) 
   return (
     <Card 
       className={`
-        h-full flex flex-col
+        h-full flex flex-col mt-2
         ${isComplete ? 'opacity-90' : ''}
         animate-fade-in-up opacity-0 ${staggerClass}
-        border border-gray-100 shadow-sm card-hover
+        border border-gray-100 shadow-md card-hover
       `}
       style={{ animationFillMode: 'forwards' }}
     >

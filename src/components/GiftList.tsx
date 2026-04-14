@@ -197,21 +197,35 @@ export function GiftList({
             </p>
           ) : (
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
-              {openGifts.map((gift) => (
-                <div
-                  key={gift.id}
-                  className="bg-white rounded-xl border border-gray-100 shadow-sm p-4"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-sm font-medium bg-purple-100 text-purple-700 px-3 py-1 rounded-full">
-                      {getInitials(gift.name, gift.lastname)}
-                    </span>
+              {openGifts.map((gift, i) => {
+                const colors = [
+                  'bg-pink-100 border-pink-200',
+                  'bg-green-100 border-green-200', 
+                  'bg-yellow-100 border-yellow-200',
+                  'bg-blue-100 border-blue-200',
+                  'bg-purple-100 border-purple-200',
+                  'bg-rose-100 border-rose-200',
+                ]
+                const emojis = ['🎁', '💝', '⭐', '🎉', '💕', '🌸']
+                const color = colors[i % colors.length]
+                const emoji = emojis[i % emojis.length]
+                return (
+                  <div
+                    key={gift.id}
+                    className={`${color} rounded-2xl border-2 shadow-md p-4`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xl">{emoji}</span>
+                      <span className="text-xs font-bold bg-white/70 px-2 py-1 rounded-full">
+                        {getInitials(gift.name, gift.lastname)}
+                      </span>
+                    </div>
+                    <p className="text-base font-bold text-gray-700">
+                      {gift.gift_name}
+                    </p>
                   </div>
-                  <p className="text-base font-semibold text-text">
-                    {gift.gift_name}
-                  </p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>

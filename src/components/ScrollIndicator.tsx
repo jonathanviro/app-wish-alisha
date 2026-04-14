@@ -4,6 +4,7 @@ const sections = [
   { id: 'category-essential', label: 'Esenciales' },
   { id: 'category-optional', label: 'Opcionales' },
   { id: 'category-detail', label: 'Detalles' },
+  { id: 'category-custom', label: 'Personalizados' },
 ]
 
 export function ScrollIndicator() {

@@ -15,10 +15,14 @@ interface GiftListProps {
     contributor: Contributor,
   ) => Promise<{ success: boolean; error?: string }>;
   isGiftComplete: (gift: GiftType) => boolean;
-  giftsByCategory: (category: "essential" | "optional" | "detail") => GiftType[];
+  giftsByCategory: (
+    category: "essential" | "optional" | "detail",
+  ) => GiftType[];
   onReleaseClick: () => void;
   openGifts: OpenGift[];
-  onOpenGiftAdd: (data: Contributor & { giftName: string }) => Promise<{ success: boolean; error?: string }>;
+  onOpenGiftAdd: (
+    data: Contributor & { giftName: string },
+  ) => Promise<{ success: boolean; error?: string }>;
 }
 
 export function GiftList({
@@ -37,21 +41,23 @@ export function GiftList({
   const [reserveError, setReserveError] = useState<string | null>(null);
   const [openGiftModalOpen, setOpenGiftModalOpen] = useState(false);
 
-  const handleOpenGiftSubmit = async (data: Contributor & { giftName: string }): Promise<{ success: boolean; error?: string }> => {
-    const result = await onOpenGiftAdd(data)
+  const handleOpenGiftSubmit = async (
+    data: Contributor & { giftName: string },
+  ): Promise<{ success: boolean; error?: string }> => {
+    const result = await onOpenGiftAdd(data);
     if (result.success) {
-      setOpenGiftModalOpen(false)
+      setOpenGiftModalOpen(false);
     }
-    return result
-  }
+    return result;
+  };
 
   const openGiftModalProps = {
     open: openGiftModalOpen,
     onOpenChange: (open: boolean) => {
-      setOpenGiftModalOpen(open)
+      setOpenGiftModalOpen(open);
     },
-    onSubmit: handleOpenGiftSubmit
-  }
+    onSubmit: handleOpenGiftSubmit,
+  };
 
   const categories: Array<"essential" | "optional" | "detail"> = [
     "essential",
@@ -185,40 +191,29 @@ export function GiftList({
         </div>
 
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
-            {openGifts.map((gift) => (
-              <div
-                key={gift.id}
-                className="bg-white rounded-xl border border-gray-100 shadow-sm p-4"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium bg-purple-100 text-purple-700 px-3 py-1 rounded-full">
-                    {getInitials(gift.name, gift.lastname)}
-                  </span>
-                  <span className="text-sm text-text/80 font-medium">
-                    regaló:
-                  </span>
+          {openGifts.length === 0 ? (
+            <p className="text-center text-text/50 py-8">
+              Aún no hay regalos personalizados
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
+              {openGifts.map((gift) => (
+                <div
+                  key={gift.id}
+                  className="bg-white rounded-xl border border-gray-100 shadow-sm p-4"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-medium bg-purple-100 text-purple-700 px-3 py-1 rounded-full">
+                      {getInitials(gift.name, gift.lastname)}
+                    </span>
+                  </div>
+                  <p className="text-base font-semibold text-text">
+                    {gift.gift_name}
+                  </p>
                 </div>
-                <p className="text-sm text-text mt-2 font-medium">
-                  {gift.giftName}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="max-w-6xl mx-auto px-4 md:px-6 mt-6">
-          <Button
-            onClick={() => setOpenGiftModalOpen(true)}
-            className="w-full h-12 md:h-14 text-sm md:text-base font-semibold 
-                       shadow-lg hover:shadow-xl btn-transition rounded-full
-                       bg-pastel-green hover:bg-pastel-green/70 animate-heartbeat"
-          >
-            <span className="flex items-center justify-center gap-2">
-              <Gift className="w-4 h-4" />
-              ¿Tenés un regalo personalizado?
-            </span>
-          </Button>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

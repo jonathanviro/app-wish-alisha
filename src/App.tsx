@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Hero } from './components/Hero'
 import { GiftList } from './components/GiftList'
+import { ScrollIndicator } from './components/ScrollIndicator'
 import { ReleaseByEmailModal } from './components/ReleaseByEmailModal'
 import { Decorations } from './components/Decorations'
 import { SkeletonGrid } from './components/SkeletonCard'
@@ -58,6 +59,8 @@ function App() {
             onReleaseClick={() => setReleaseModalOpen(true)}
           />
         )}
+        
+        <ScrollIndicator />
       </main>
       
       <ReleaseByEmailModal

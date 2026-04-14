@@ -3,29 +3,23 @@ import type { Contributor } from '@/types/gift'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 
-interface ReserveModalProps {
+interface OpenGiftModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  giftName: string
-  onReserve: (contributor: Contributor) => Promise<{ success: boolean; error?: string }>
-  isGroup: boolean
-  error?: string | null
-  onSuccess?: () => void
+  onSubmit: (data: Contributor & { giftName: string }) => Promise<{ success: boolean; error?: string }>
 }
 
-export function ReserveModal({ 
+export function OpenGiftModal({ 
   open, 
   onOpenChange, 
-  giftName, 
-  onReserve,
-  isGroup,
-  error,
-  onSuccess
-}: ReserveModalProps) {
+  onSubmit
+}: OpenGiftModalProps) {
   const [name, setName] = useState('')
   const [lastname, setLastname] = useState('')
   const [email, setEmail] = useState('')
+  const [giftName, setGiftName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [showSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
@@ -33,19 +27,29 @@ export function ReserveModal({
       setName('')
       setLastname('')
       setEmail('')
+      setGiftName('')
+      setShowSuccess(false)
+      setError(null)
     }
   }, [open])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !lastname.trim() || !email.trim()) return
+    if (!name.trim() || !lastname.trim() || !email.trim() || !giftName.trim()) return
     
     setIsSubmitting(true)
+    setError(null)
     try {
-      const result = await onReserve({ name: name.trim(), lastname: lastname.trim(), email: email.trim() })
+      const result = await onSubmit({ 
+        name: name.trim(), 
+        lastname: lastname.trim(), 
+        email: email.trim(),
+        giftName: giftName.trim() 
+      })
       if (result.success) {
         setShowSuccess(true)
-        onSuccess?.()
+      } else {
+        setError(result.error || 'Error al guardar')
       }
     } finally {
       setIsSubmitting(false)
@@ -56,7 +60,9 @@ export function ReserveModal({
     setName('')
     setLastname('')
     setEmail('')
+    setGiftName('')
     setShowSuccess(false)
+    setError(null)
     onOpenChange(false)
   }
 
@@ -68,7 +74,7 @@ export function ReserveModal({
         <div className="bg-white rounded-2xl p-8 max-w-md w-full text-center animate-scale-in">
           <div className="text-6xl mb-4">💕</div>
           <h2 className="text-2xl font-bold text-text mb-2">
-            ¡Gracias por reservar este obsequio!
+            ¡Gracias por tu regalo!
           </h2>
           <p className="text-lg text-text/70 mb-6">
             Te esperamos el día del evento 🎉
@@ -88,7 +94,7 @@ export function ReserveModal({
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 pt-12 md:pt-20 overflow-y-auto">
       <div className="bg-white rounded-2xl p-6 max-w-md w-full my-4">
         <h2 className="text-xl font-bold text-text text-center mb-6">
-          {isGroup ? 'Aportar' : 'Reservar'} {giftName}
+          Mi Regalo Personalizado
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -131,11 +137,28 @@ export function ReserveModal({
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-text mb-2">Regalo que deseas dar</label>
+            <input 
+              type="text"
+              value={giftName}
+              onChange={(e) => setGiftName(e.target.value)}
+              placeholder="Pañales, Ropa, Juguetes..."
+              required
+              disabled={isSubmitting}
+              className="w-full h-12 px-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pastel-green/50"
+            />
+          </div>
+
           {error && (
             <div className="bg-pastel-red/10 text-pastel-red text-sm text-center py-3 px-4 rounded-lg">
               {error}
             </div>
           )}
+
+          <div className="text-xs text-text/50 text-center">
+            Nota: Este regalo no asegura que otro invitado no lo regale también
+          </div>
 
           <div className="flex gap-3 pt-4">
             <button 
@@ -154,7 +177,7 @@ export function ReserveModal({
               {isSubmitting ? (
                 <span className="flex items-center justify-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Confirmando...
+                  Guardando...
                 </span>
               ) : (
                 'Confirmar'

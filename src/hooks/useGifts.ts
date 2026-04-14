@@ -93,6 +93,19 @@ export function useGifts() {
         }
       }
 
+      const { data: existingOpenGift } = await supabase
+        .from('open_gifts')
+        .select('gift_name')
+        .ilike('email', contributor.email)
+        .single()
+
+      if (existingOpenGift) {
+        return { 
+          success: false, 
+          error: `Este correo ya tiene un regalo personalizado: "${existingOpenGift.gift_name}"` 
+        }
+      }
+
       const maxContributors = gift.type === 'single' ? 1 : gift.maxContributors ?? 1
       if (gift.contributors.length >= maxContributors) {
         return { success: false, error: 'Este regalo ya está completo' }

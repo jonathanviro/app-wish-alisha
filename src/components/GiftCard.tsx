@@ -123,16 +123,25 @@ export function GiftCard({ gift, isComplete, onReserve, index }: GiftCardProps) 
             )}
           </div>
 
-          <Button 
-            className="w-full btn-transition font-medium shadow-sm text-sm md:text-base animate-heartbeat"
-            onClick={onReserve}
-          >
-            <span className="flex items-center justify-center gap-1">
-              <span>👉</span>
-              {isComplete ? 'Completado' : gift.type === 'group' ? 'Aporta aquí' : 'Reserva aquí'}
-              <span>👈</span>
-            </span>
-          </Button>
+          {isComplete ? (
+            <div className="w-full text-center py-3 px-4 rounded-full bg-pastel-red/20 text-text/80 font-medium text-sm">
+              <span className="flex items-center justify-center gap-2">
+                🎁 {gift.contributors.length > 0 ? `Regalado por ` : ''}
+                {gift.contributors.slice(0, 1).map((c) => getInitials(c.name, c.lastname))}
+              </span>
+            </div>
+          ) : (
+            <Button 
+              className="w-full btn-transition font-medium shadow-sm text-sm md:text-base animate-heartbeat"
+              onClick={onReserve}
+            >
+              <span className="flex items-center justify-center gap-1">
+                <span>👉</span>
+                {gift.type === 'group' ? 'Aporta aquí' : 'Reserva aquí'}
+                <span>👈</span>
+              </span>
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

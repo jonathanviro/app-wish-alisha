@@ -1,7 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { CountdownTimer } from '@/components/CountdownTimer'
 
-export function Hero() {
+interface HeroProps {
+  onOpenGiftClick?: () => void
+}
+
+export function Hero({ onOpenGiftClick }: HeroProps) {
   const targetDate = new Date('2026-05-02T15:00:00')
 
   const scrollToList = () => {
@@ -69,19 +73,35 @@ export function Hero() {
           </p>
         </div>
 
-        {/* Botón */}
-        <Button
-          onClick={scrollToList}
-          className="mt-4 h-12 md:h-16 px-8 md:px-12 
-                     text-sm md:text-base font-semibold 
-                     shadow-lg hover:shadow-xl
-                     btn-transition rounded-full
-                     bg-pastel-green hover:bg-pastel-green/70 hover:-translate-y-0.5
-                     transition-all duration-200
-                     animate-heartbeat"
-        >
-          Ver lista de deseos 🎁
-        </Button>
+        {/* Botones */}
+        <div className="flex flex-col sm:flex-row gap-3 mt-4">
+          <Button
+            onClick={scrollToList}
+            className="h-12 md:h-14 px-6 md:px-10 
+                       text-sm md:text-base font-semibold 
+                       shadow-lg hover:shadow-xl
+                       btn-transition rounded-full
+                       bg-pastel-green hover:bg-pastel-green/70 hover:-translate-y-0.5
+                       transition-all duration-200
+                       animate-heartbeat"
+          >
+            Ver lista de deseos 🎁
+          </Button>
+          
+          {onOpenGiftClick && (
+            <Button
+              onClick={onOpenGiftClick}
+              className="h-12 md:h-14 px-6 md:px-10 
+                         text-sm md:text-base font-semibold 
+                         shadow-lg hover:shadow-xl
+                         btn-transition rounded-full
+                         bg-pastel-red hover:bg-pastel-red/70 hover:-translate-y-0.5
+                         transition-all duration-200"
+            >
+              Regalo Personalizado 🎁
+            </Button>
+          )}
+        </div>
 
         {/* Agradecimiento */}
         <p className="mt-6 md:mt-10 text-xs md:text-sm text-pastel-green font-medium">

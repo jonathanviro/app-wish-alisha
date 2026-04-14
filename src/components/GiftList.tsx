@@ -91,7 +91,7 @@ export function GiftList({
                   variant="ghost"
                   size="sm"
                   onClick={onReleaseClick}
-                  className="text-text/40 hover:text-text/70 hover:bg-gray-100 border border-transparent btn-transition shrink-0"
+                  className="bg-pastel-red text-white hover:bg-pastel-red/70 border-0 btn-transition shrink-0"
                 >
                   <Frown className="w-4 h-4 mr-1" />
                   <span className="text-xs">Liberar reserva</span>

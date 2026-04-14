@@ -17,20 +17,28 @@ export function ScrollIndicator() {
       
       setIsVisible(window.scrollY > heroBottom - 100)
 
-      let foundSection = -1
-      for (let i = sections.length - 1; i >= 0; i--) {
+      const lastSection = sections[sections.length - 1]
+      const lastEl = document.getElementById(lastSection.id)
+      if (lastEl) {
+        const rect = lastEl.getBoundingClientRect()
+        const isAtEnd = rect.bottom <= window.innerHeight * 1.2
+        if (isAtEnd) {
+          setCurrentSection(sections.length)
+          return
+        }
+      }
+
+      let foundSection = 0
+      for (let i = 0; i < sections.length; i++) {
         const el = document.getElementById(sections[i].id)
         if (el) {
           const rect = el.getBoundingClientRect()
-          if (rect.top <= window.innerHeight * 0.5) {
+          if (rect.top < window.innerHeight * 0.7) {
             foundSection = i
-            break
           }
         }
       }
-      if (foundSection >= 0) {
-        setCurrentSection(foundSection)
-      }
+      setCurrentSection(foundSection)
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -40,19 +48,20 @@ export function ScrollIndicator() {
   }, [])
 
   const scrollTo = () => {
-    if (currentSection >= sections.length - 1) {
+    if (currentSection >= sections.length) {
       const hero = document.getElementById('hero')
       if (hero) {
         hero.scrollIntoView({ behavior: 'smooth' })
-        setCurrentSection(0)
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
+      setTimeout(() => setCurrentSection(0), 300)
+    } else if (currentSection >= sections.length - 1) {
+      setCurrentSection(sections.length)
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' })
     } else {
+      setCurrentSection(currentSection + 1)
       const nextSection = document.getElementById(sections[currentSection + 1].id)
       if (nextSection) {
         nextSection.scrollIntoView({ behavior: 'smooth' })
-        setCurrentSection(currentSection + 1)
       }
     }
   }
@@ -74,7 +83,7 @@ export function ScrollIndicator() {
         transition-all duration-200
       "
     >
-      {currentSection >= sections.length - 1 ? (
+      {currentSection >= sections.length ? (
         <span>↑ Subir</span>
       ) : (
         <span>Ver más ↓</span>

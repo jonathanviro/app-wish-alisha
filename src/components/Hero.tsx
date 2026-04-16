@@ -63,7 +63,7 @@ export function Hero({ onOpenGiftClick }: HeroProps) {
         </div>
 
         {/* Botones */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-4 md:gap-8">
           <Button
             onClick={scrollToList}
             className="h-12 md:h-14 px-6 md:px-10 

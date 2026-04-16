@@ -103,7 +103,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="min-h-screen bg-background relative pb-4">
       <Decorations />
       
       <Hero onOpenGiftClick={() => setOpenGiftModalOpen(true)} />
@@ -159,6 +159,10 @@ function App() {
       />
       
       <ToastContainer toasts={toast.toasts} onRemove={toast.removeToast} />
+      
+      <footer className="pb-20 pt-4 text-center text-xs text-text/40">
+        Desarrollado con ❤️ por Mami y Papi © 2026
+      </footer>
     </div>
   )
 }

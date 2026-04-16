@@ -208,17 +208,9 @@ export function GiftList({
 
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           {openGifts.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-text/50 mb-4">
-                Aún no hay regalos personalizados
-              </p>
-              <Button
-                onClick={() => setOpenGiftModalOpen(true)}
-                className="h-12 px-6 text-sm font-semibold rounded-full bg-pink-400 hover:bg-pink-400/70"
-              >
-                Agregar regalo personalizado 🎁
-              </Button>
-            </div>
+            <p className="text-center text-text/50 py-8">
+              Aún no hay regalos personalizados
+            </p>
           ) : (
             <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
               {openGifts.map((gift, i) => {

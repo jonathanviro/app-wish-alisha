@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 const sections = [
+  { id: 'category-group_gift', label: 'Regalo Grupal' },
   { id: 'category-essential', label: 'Esenciales' },
   { id: 'category-optional', label: 'Opcionales' },
   { id: 'category-detail', label: 'Detalles' },
@@ -48,6 +49,13 @@ export function ScrollIndicator() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const getNextSectionLabel = () => {
+    if (currentSection >= sections.length - 1) {
+      return 'Personalizados'
+    }
+    return sections[currentSection + 1]?.label || 'Siguiente'
+  }
+
   const scrollTo = () => {
     if (currentSection >= sections.length) {
       const hero = document.getElementById('hero')
@@ -87,7 +95,7 @@ export function ScrollIndicator() {
       {currentSection >= sections.length ? (
         <span>↑ Subir</span>
       ) : (
-        <span>Ver más ↓</span>
+        <span>Ver {getNextSectionLabel()} ↓</span>
       )}
     </button>
   )

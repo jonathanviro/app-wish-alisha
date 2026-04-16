@@ -1,24 +1,26 @@
-import { Button } from '@/components/ui/button'
-import { CountdownTimer } from '@/components/CountdownTimer'
+import { Button } from "@/components/ui/button";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 interface HeroProps {
-  onOpenGiftClick?: () => void
+  onOpenGiftClick?: () => void;
 }
 
 export function Hero({ onOpenGiftClick }: HeroProps) {
-  const targetDate = new Date('2026-05-02T15:00:00')
+  const targetDate = new Date("2026-05-02T15:00:00");
 
   const scrollToList = () => {
-    const listSection = document.getElementById('gifts-list')
+    const listSection = document.getElementById("gifts-list");
     if (listSection) {
-      listSection.scrollIntoView({ behavior: 'smooth' })
+      listSection.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
-    <section id="hero" className="relative min-h-[80vh] md:min-h-screen flex flex-col items-center justify-start px-3 pt-6 pb-6 md:pt-10 md:pb-10 overflow-hidden">
+    <section
+      id="hero"
+      className="relative min-h-[80vh] md:min-h-screen flex flex-col items-center justify-start px-3 pt-6 pb-6 md:pt-10 md:pb-10 overflow-hidden"
+    >
       <div className="relative z-10 w-full max-w-lg mx-auto text-center">
-        
         {/* Título */}
         <div className="mb-4 md:mb-6">
           <h1 className="text-2xl md:text-4xl font-serif text-text tracking-wide italic">
@@ -31,17 +33,19 @@ export function Hero({ onOpenGiftClick }: HeroProps) {
 
         {/* Foto cuadrada con countdown dentro */}
         <div className="mb-4 md:mb-6 relative rounded-xl overflow-hidden shadow-xl">
-          <img 
-            src="/baby-placeholder.jpg" 
-            alt="Alisha" 
+          <img
+            src="/baby-placeholder.png"
+            alt="Alisha"
             className="w-full h-64 md:h-80 object-cover"
           />
-          <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-3 md:p-4">
-            <p className="text-white text-xs md:text-sm font-medium mb-2">
-              Baby Shower - 2 de Mayo 3:00 PM
-            </p>
-            <CountdownTimer targetDate={targetDate} />
-          </div>
+        </div>
+
+        {/* Countdown debajo de la imagen */}
+        <div className="mb-4">
+          <p className="text-black text-xs md:text-sm font-medium mb-2">
+            2 de Mayo 3:00 PM - Nos vemos en:
+          </p>
+          <CountdownTimer targetDate={targetDate} />
         </div>
 
         {/* Texto emocional más grande */}
@@ -53,10 +57,10 @@ export function Hero({ onOpenGiftClick }: HeroProps) {
             Nos hace muy felices compartir este momento contigo.
           </p>
           <p className="text-base md:text-lg text-text/60">
-            Si deseas regalarnos algo, hemos prepararado{' '}
+            Si deseas regalarnos algo, hemos prepararado{" "}
             <span className="font-medium text-text/80">
               esta lista con mucho cariño
-            </span>{' '}
+            </span>{" "}
             para que puedas reservarlo fácilmente.
           </p>
         </div>
@@ -75,7 +79,7 @@ export function Hero({ onOpenGiftClick }: HeroProps) {
           >
             Ver lista de deseos 🎁
           </Button>
-          
+
           {onOpenGiftClick && (
             <Button
               onClick={onOpenGiftClick}
@@ -107,5 +111,5 @@ export function Hero({ onOpenGiftClick }: HeroProps) {
 
       <div className="absolute bottom-0 left-0 right-0 h-16 md:h-20 bg-gradient-to-t from-[#FFF5F0] to-transparent pointer-events-none" />
     </section>
-  )
+  );
 }

@@ -38,14 +38,14 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   }, [targetDate])
 
   return (
-    <div className="mt-8 md:mt-10 flex justify-center">
+    <div className="flex justify-center">
       <div className="flex items-center gap-2 md:gap-3">
         <TimeUnit value={timeLeft.days} label="días" />
-        <span className="text-lg md:text-2xl font-bold text-text/40 -mt-5">:</span>
+        <span className="text-lg md:text-2xl font-bold text-black -mt-5">:</span>
         <TimeUnit value={timeLeft.hours} label="hrs" />
-        <span className="text-lg md:text-2xl font-bold text-text/40 -mt-5">:</span>
+        <span className="text-lg md:text-2xl font-bold text-black -mt-5">:</span>
         <TimeUnit value={timeLeft.minutes} label="min" />
-        <span className="text-lg md:text-2xl font-bold text-text/40 -mt-5">:</span>
+        <span className="text-lg md:text-2xl font-bold text-black -mt-5">:</span>
         <TimeUnit value={timeLeft.seconds} label="seg" />
       </div>
     </div>
@@ -55,12 +55,12 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-2 py-1.5 md:px-4 md:py-2 min-w-[44px] md:min-w-[60px] text-center">
-        <span className="text-lg md:text-3xl font-bold text-text">
+      <div className="bg-white/90 rounded-xl shadow-sm border border-gray-200 px-2 py-1.5 md:px-4 md:py-2 min-w-[44px] md:min-w-[60px] text-center">
+        <span className="text-lg md:text-3xl font-bold text-black">
           {value.toString().padStart(2, '0')}
         </span>
       </div>
-      <span className="text-[10px] md:text-xs text-text/50 mt-1 font-medium">
+      <span className="text-[10px] md:text-xs text-black mt-1 font-medium">
         {label}
       </span>
     </div>

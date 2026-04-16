@@ -1,6 +1,0 @@
-{
-  "to": "tu-email@email.com",
-  "subject": "Test - Regalo para Alisha",
-  "html": "<!DOCTYPE html><html><body style=\"font-family: sans-serif;\"><h1>Test</h1><p>El email funciona!</p></body></html>",
-  "from_name": "Alisha"
-}

@@ -9,6 +9,7 @@ interface ReserveModalProps {
   giftName: string
   onReserve: (contributor: Contributor) => Promise<{ success: boolean; error?: string }>
   isGroup: boolean
+  isGiftGroup?: boolean
   error?: string | null
   onSuccess?: () => void
 }
@@ -19,6 +20,7 @@ export function ReserveModal({
   giftName, 
   onReserve,
   isGroup,
+  isGiftGroup = false,
   error,
   onSuccess
 }: ReserveModalProps) {
@@ -38,11 +40,17 @@ export function ReserveModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !lastname.trim() || !email.trim()) return
+    
+    if (isGiftGroup) {
+      if (!name.trim() || !email.trim()) return
+    } else {
+      if (!name.trim() || !lastname.trim() || !email.trim()) return
+    }
     
     setIsSubmitting(true)
     try {
-      const result = await onReserve({ name: name.trim(), lastname: lastname.trim(), email: email.trim() })
+      const lastnameValue = isGiftGroup ? '' : lastname.trim()
+      const result = await onReserve({ name: name.trim(), lastname: lastnameValue, email: email.trim() })
       if (result.success) {
         setShowSuccess(true)
         onSuccess?.()
@@ -106,30 +114,34 @@ export function ReserveModal({
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-text mb-2">Nombre</label>
+            <label className="block text-sm font-medium text-text mb-2">
+              {isGiftGroup ? 'Nombre de Familia/Grupo' : 'Nombre'}
+            </label>
             <input 
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Juan"
+              placeholder={isGiftGroup ? 'Familia García' : 'Juan'}
               required
               disabled={isSubmitting}
               className="w-full h-12 px-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pastel-green/50"
             />
           </div>
           
-          <div>
-            <label className="block text-sm font-medium text-text mb-2">Apellido</label>
-            <input 
-              type="text"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-              placeholder="Pérez"
-              required
-              disabled={isSubmitting}
-              className="w-full h-12 px-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pastel-green/50"
-            />
-          </div>
+          {!isGiftGroup && (
+            <div>
+              <label className="block text-sm font-medium text-text mb-2">Apellido</label>
+              <input 
+                type="text"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                placeholder="Pérez"
+                required
+                disabled={isSubmitting}
+                className="w-full h-12 px-4 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pastel-green/50"
+              />
+            </div>
+          )}
 
           {error && (
             <div className="bg-pastel-red/10 text-pastel-red text-sm text-center py-3 px-4 rounded-lg">

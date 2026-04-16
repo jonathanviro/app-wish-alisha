@@ -1,4 +1,4 @@
-export type Category = 'essential' | 'optional' | 'detail'
+export type Category = 'group_gift' | 'essential' | 'optional' | 'detail'
 
 export type Contributor = {
   name: string
@@ -38,6 +38,13 @@ export type ContributorRow = {
 }
 
 export function getInitials(name: string, lastname: string): string {
+  if (!lastname || lastname.trim() === '') {
+    const words = name.trim().split(' ')
+    if (words.length > 1) {
+      return `${words[0].charAt(0).toUpperCase()}.${words[1].charAt(0).toUpperCase()}.`
+    }
+    return `${name.charAt(0).toUpperCase()}.`
+  }
   return `${name.charAt(0).toUpperCase()}.${lastname.charAt(0).toUpperCase()}.`
 }
 
@@ -59,6 +66,14 @@ export function rowToGift(giftRow: GiftRow, contributorRows: ContributorRow[]): 
 }
 
 export const categoryConfig = {
+  group_gift: {
+    label: 'Regalo Grupal',
+    icon: '👨‍👩‍👧‍👦',
+    color: 'text-purple-600',
+    bgColor: 'bg-purple-50',
+    borderColor: 'border-purple-200',
+    description: 'Regalo especial de familia o grupo'
+  },
   essential: {
     label: 'Esenciales',
     icon: '⭐',

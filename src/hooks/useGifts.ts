@@ -32,12 +32,22 @@ function buildReservationEmailHtml(
   name: string,
   giftName: string,
   isGroup: boolean,
+  isGiftGroup: boolean,
   currentContributors: number,
   maxContributors: number
 ): string {
-  const statusText = isGroup 
+  let statusText = isGroup 
     ? `¡Ahora hay ${currentContributors} de ${maxContributors} personas que han reservado este regalo!`
     : '¡Ya está reservado para ti!'
+
+  let titleText = '¡Gracias por tu regalo!'
+  let messageText = `Gracias por reservar <strong>${giftName}</strong> para ${EVENT_NAME}.`
+  
+  if (isGiftGroup) {
+    titleText = '¡Gracias por este regalo tan especial!'
+    messageText = `Gracias por regalar <strong>${giftName}</strong> a ${EVENT_NAME}.<br><br>Tu regalo es muy valioso para nosotros y significa mucho tu cariño.`
+    statusText = '¡Este regalo grupal está reservado para Alisha!'
+  }
 
   return `
 <!DOCTYPE html>
@@ -49,17 +59,17 @@ function buildReservationEmailHtml(
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #FFF7F5; padding: 20px; margin: 0;">
   <div style="max-width: 500px; margin: 0 auto; background-color: #FFFFFF; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
     <div style="text-align: center; margin-bottom: 24px;">
-      <span style="font-size: 48px;">💕</span>
+      <span style="font-size: 48px;">${isGiftGroup ? '👨‍👩‍👧‍👦' : '💕'}</span>
     </div>
     <h1 style="color: #333333; text-align: center; margin: 0 0 16px 0; font-size: 24px;">
-      ¡Gracias por tu regalo!
+      ${titleText}
     </h1>
     <p style="color: #666666; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
       Hola <strong>${name}</strong>,<br><br>
-      Gracias por reservar <strong>${giftName}</strong> para ${EVENT_NAME}.
+      ${messageText}
     </p>
-    <div style="background-color: #FFF7F5; border-radius: 12px; padding: 16px; margin: 24px 0; text-align: center;">
-      <p style="color: #4CAF50; font-weight: 600; font-size: 16px; margin: 0;">
+    <div style="background-color: ${isGiftGroup ? '#9333ea' : '#FFF7F5'}; border-radius: 12px; padding: 16px; margin: 24px 0; text-align: center;">
+      <p style="color: ${isGiftGroup ? '#ffffff' : '#4CAF50'}; font-weight: 600; font-size: 16px; margin: 0;">
         ${statusText}
       </p>
     </div>
@@ -250,6 +260,7 @@ export function useGifts() {
         contributor.name,
         gift.name,
         gift.type === 'group',
+        gift.category === 'group_gift',
         currentCount + 1,
         max
       )

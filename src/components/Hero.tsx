@@ -50,15 +50,12 @@ export function Hero({ onOpenGiftClick }: HeroProps) {
 
         {/* Texto emocional más grande */}
         <div className="space-y-2 md:space-y-3 mb-6 px-2">
-          <p className="text-lg md:text-xl text-text font-medium">
-            Cada día falta menos para conocerte y llenar nuestras vidas de amor.
-          </p>
-          <p className="text-base md:text-lg text-text/70">
+          <p className="text-base md:text-lg font-serif text-text/70 italic">
             Nos hace muy felices compartir este momento contigo.
           </p>
-          <p className="text-base md:text-lg text-text/60">
+          <p className="text-base md:text-lg font-serif text-text/60 italic">
             Si deseas regalarnos algo, hemos prepararado{" "}
-            <span className="font-medium text-text/80">
+            <span className="font-medium font-serif text-text/80 italic">
               esta lista con mucho cariño
             </span>{" "}
             para que puedas reservarlo fácilmente.

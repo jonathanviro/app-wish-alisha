@@ -9,9 +9,10 @@ interface GiftCardProps {
   isComplete: boolean
   onReserve: () => void
   index: number
+  onImageClick?: () => void
 }
 
-export function GiftCard({ gift, isComplete, onReserve, index }: GiftCardProps) {
+export function GiftCard({ gift, isComplete, onReserve, index, onImageClick }: GiftCardProps) {
   const maxContributors = gift.type === 'single' ? 1 : gift.maxContributors ?? 1
   const progress = Math.round((gift.contributors.length / maxContributors) * 100)
   const staggerClass = `stagger-${Math.min((index % 8) + 1, 8)}`
@@ -32,8 +33,9 @@ export function GiftCard({ gift, isComplete, onReserve, index }: GiftCardProps) 
             <img 
               src={gift.image} 
               alt={gift.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${onImageClick ? 'cursor-zoom-in' : ''}`}
               loading="lazy"
+              onClick={onImageClick}
             />
             {isComplete && (
               <div className="absolute inset-0 gradient-overlay" />

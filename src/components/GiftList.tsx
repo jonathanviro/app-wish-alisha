@@ -6,6 +6,7 @@ import { categoryConfig, getInitials } from "@/types/gift";
 import { GiftCard } from "@/components/GiftCard";
 import { ReserveModal } from "@/components/ReserveModal";
 import { OpenGiftModal } from "@/components/OpenGiftModal";
+import { ImageModal } from "@/components/ImageModal";
 import type { OpenGift } from "@/hooks/useOpenGifts";
 
 interface GiftListProps {
@@ -16,7 +17,7 @@ interface GiftListProps {
   ) => Promise<{ success: boolean; error?: string }>;
   isGiftComplete: (gift: GiftType) => boolean;
   giftsByCategory: (
-    category: "essential" | "optional" | "detail",
+    category: "group_gift" | "essential" | "optional" | "detail",
   ) => GiftType[];
   onReleaseClick: () => void;
   openGifts: OpenGift[];
@@ -40,6 +41,11 @@ export function GiftList({
   }>({ open: false, giftId: "" });
   const [reserveError, setReserveError] = useState<string | null>(null);
   const [openGiftModalOpen, setOpenGiftModalOpen] = useState(false);
+  const [imageModal, setImageModal] = useState<{
+    open: boolean;
+    src: string;
+    alt: string;
+  }>({ open: false, src: "", alt: "" });
 
   const handleOpenGiftSubmit = async (
     data: Contributor & { giftName: string },
@@ -59,7 +65,8 @@ export function GiftList({
     onSubmit: handleOpenGiftSubmit,
   };
 
-  const categories: Array<"essential" | "optional" | "detail"> = [
+  const categories: Array<"group_gift" | "essential" | "optional" | "detail"> = [
+    "group_gift",
     "essential",
     "optional",
     "detail",
@@ -142,6 +149,7 @@ export function GiftList({
                         setReserveError(null);
                         setReserveModal({ open: true, giftId: gift.id });
                       }}
+                      onImageClick={() => gift.image && setImageModal({ open: true, src: gift.image, alt: gift.name })}
                     />
                   );
                 })}
@@ -160,6 +168,7 @@ export function GiftList({
           }}
           giftName={selectedReserveGift.name}
           isGroup={selectedReserveGift.type === "group"}
+          isGiftGroup={selectedReserveGift.category === "group_gift"}
           onReserve={handleReserve}
           error={reserveError}
           onSuccess={() => {
@@ -170,6 +179,13 @@ export function GiftList({
       )}
 
       <OpenGiftModal {...openGiftModalProps} />
+
+      <ImageModal
+        src={imageModal.src}
+        alt={imageModal.alt}
+        isOpen={imageModal.open}
+        onClose={() => setImageModal({ open: false, src: "", alt: "" })}
+      />
 
       <section
         id="category-custom"
